@@ -6,18 +6,20 @@ const mockUrls = [
   "https://utfs.io/f/1791387a-c0e4-450f-867a-c8cd83aac2b1-1zbfv.png",
 ];
 
+export const dynamic = "force-dynamic";
 const mockImages = mockUrls.map((img, i) => ({
   id: i + 1,
   url: img,
 }));
 export default async function HomePage() {
-  const posts = await db.query.posts.findMany();
-  console.log(posts);
+  const images = await db.query.images.findMany({
+    orderBy: (model, { desc }) => desc(model.id),
+  });
   return (
     <main>
       <div className="flex flex-wrap gap-4">
-        {posts.map((post, index) => (
-          <div key={post.id}>{post.name}</div>
+        {images.map((img, index) => (
+          <div key={img.id}>{img.name}</div>
         ))}
         {mockImages.map((img, index) => (
           <div className="w-48 " key={img.id + "-" + index}>

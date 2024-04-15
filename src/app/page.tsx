@@ -1,32 +1,32 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { db } from "~/server/db";
-
-const mockUrls = [
-  "https://utfs.io/f/a802fa95-411c-435f-9c20-bfd62400d866-19wb9u.jpeg",
-  "https://utfs.io/f/00948d23-8338-449e-a2a1-ab1456c926d8-eyk9f7.jpg",
-  "https://utfs.io/f/1791387a-c0e4-450f-867a-c8cd83aac2b1-1zbfv.png",
-];
-
 export const dynamic = "force-dynamic";
-const mockImages = mockUrls.map((img, i) => ({
-  id: i + 1,
-  url: img,
-}));
-export default async function HomePage() {
+
+const Images = async () => {
   const images = await db.query.images.findMany({
     orderBy: (model, { desc }) => desc(model.id),
   });
   return (
+    <div className="flex flex-wrap gap-4">
+      {images.map((img) => (
+        <div key={img.id} className="flex w-48 flex-col items-center">
+          <h1>{img.name}</h1>
+          <img src={img.url} alt="images url" />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default async function HomePage() {
+  return (
     <main>
-      <div className="flex flex-wrap gap-4">
-        {images.map((img, index) => (
-          <div key={img.id}>{img.name}</div>
-        ))}
-        {mockImages.map((img, index) => (
-          <div className="w-48 " key={img.id + "-" + index}>
-            <img src={img.url} alt="img" />
-          </div>
-        ))}
-      </div>
+      <SignedOut>
+        <div className="size-full text-center text-2xl">Please Sign In</div>
+      </SignedOut>
+      <SignedIn>
+        <Images />
+      </SignedIn>
     </main>
   );
 }

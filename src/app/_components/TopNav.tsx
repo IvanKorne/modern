@@ -3,23 +3,18 @@ import React from "react";
 import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
 import { UploadButton } from "~/utils/uploadthing";
 import { useRouter } from "next/navigation";
+import { SimpleUploadButton } from "~/components/UploadButton";
 
 const TopNav = () => {
-  const router = useRouter();
   return (
     <nav className="flex w-full items-center justify-between border-b p-4">
       <div className="text-2xl font-semibold md:text-3xl">ModGal</div>
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-4">
         <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
-          <UploadButton
-            endpoint="imageUploader"
-            onClientUploadComplete={() => {
-              router.refresh();
-            }}
-          />
+          <SimpleUploadButton />
 
           <UserButton />
         </SignedIn>

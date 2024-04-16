@@ -1,5 +1,6 @@
 import React from "react";
-import { getImage } from "~/server/queries";
+import { Modal } from "./modal";
+import ImagePage from "~/components/ImagePage";
 type Props = {
   params: {
     id: string;
@@ -7,11 +8,13 @@ type Props = {
 };
 
 const PhotoModal = async ({ params: { id: photoId } }: Props) => {
-  const image = await getImage(parseInt(photoId));
+  const imageId = parseInt(photoId);
+
+  if (Number.isNaN(imageId)) throw new Error("Invalid Photo Id");
   return (
-    <div>
-      <img src={image.url} alt="image" className="size-96" />
-    </div>
+    <Modal>
+      <ImagePage id={imageId} />
+    </Modal>
   );
 };
 

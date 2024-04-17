@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import { SignInButton, SignedOut, SignedIn, UserButton } from "@clerk/nextjs";
-import { UploadButton } from "~/utils/uploadthing";
-import { useRouter } from "next/navigation";
 import { SimpleUploadButton } from "~/components/UploadButton";
 
 const TopNav = () => {
